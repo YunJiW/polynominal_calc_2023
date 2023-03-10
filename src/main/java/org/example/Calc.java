@@ -4,27 +4,19 @@ public class Calc {
 
 
     public static int run(String exp) {
-        boolean needToPlus = exp.contains("+");
-        boolean needToMinus = exp.contains("-");
+        //"- "를 "+ -"로 바꿔준다. 모든연산을 더하기로 바꾸자라는 생각
+        exp = exp.replaceAll("\\- ","\\+ \\-");
+        String[] bits = exp.split(" \\+ ");
 
-        String[] bits = null;
-
-        if(needToPlus)
-        {
-            bits = exp.split(" \\+ ");
-        }else if(needToMinus){
-            bits = exp.split(" \\- ");
-        }
 
         int a = Integer.parseInt(bits[0]);
         int b = Integer.parseInt(bits[1]);
+        int c = 0;
 
-        if(needToPlus){
-            return a+b;
-        }else if(needToMinus){
-            return a-b;
+        if(bits.length > 2){
+            c = Integer.parseInt(bits[2]);
         }
 
-        throw new RuntimeException("올바른 계산식이아닙니다.");
+        return a+b+c;
     }
 }
