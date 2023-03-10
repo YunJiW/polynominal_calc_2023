@@ -8,15 +8,12 @@ public class Calc {
         exp = exp.replaceAll("\\- ","\\+ \\-");
         String[] bits = exp.split(" \\+ ");
 
+        int sum = 0;
 
-        int a = Integer.parseInt(bits[0]);
-        int b = Integer.parseInt(bits[1]);
-        int c = 0;
-
-        if(bits.length > 2){
-            c = Integer.parseInt(bits[2]);
+        for(int idx = 0; idx < bits.length;idx++){
+            sum += Integer.parseInt(bits[idx]);
         }
 
-        return a+b+c;
+        return sum;
     }
 }
