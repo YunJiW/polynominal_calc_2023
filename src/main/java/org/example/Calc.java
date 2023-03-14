@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 public class Calc {
 
     public static int run(String exp) {
+        //쓸데없는 괄호 제거
+        exp = stripOuterBrackets(exp);
+
         //단일 항인 경우 리턴
 
         if (!exp.contains(" ")) return Integer.parseInt(exp);
@@ -16,8 +19,10 @@ public class Calc {
         boolean needToCompund = needToMulti && needToPlus;
 
         if (needToCompund) {
+            exp = exp.replaceAll("- ","+ -");
             String bits[] = exp.split(" \\+ ");
 
+            //얘가 Stream형식 중요
             String newExp = Arrays.stream(bits)
                     .mapToInt(Calc::run)
                     .mapToObj(e -> e + "")
@@ -42,6 +47,17 @@ public class Calc {
             return sum;
         }
         throw new RuntimeException("올바른 계산식이 아닙니다.");
+    }
+
+    private static String stripOuterBrackets(String exp) {
+        int outbracket = 0;
+        while(exp.charAt(outbracket) == '(' && exp.charAt(exp.length()-1 -outbracket) == ')'){
+            outbracket+=1;
+        }
+        if(outbracket ==0)
+            return exp;
+
+        return exp.substring(outbracket,exp.length() - outbracket);
     }
 
 
