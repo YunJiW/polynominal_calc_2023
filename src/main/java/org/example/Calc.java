@@ -6,17 +6,42 @@ import java.util.stream.Collectors;
 public class Calc {
 
     public static int run(String exp) {
-        //쓸데없는 괄호 제거
+        exp.trim();
+        //쓸데없는 바깥쪽 괄호 제거
         exp = stripOuterBrackets(exp);
-
         //단일 항인 경우 리턴
-
         if (!exp.contains(" ")) return Integer.parseInt(exp);
         boolean needToMulti = exp.contains("*");
         boolean needToPlus = exp.contains("+") || exp.contains(" - ");
-
+        boolean neadToSplit = exp.contains("(") || exp.contains(")");
         //복합인지 체크
         boolean needToCompund = needToMulti && needToPlus;
+
+        if(neadToSplit){
+            int bracketsCount = 0;
+            int splitPointIndex = -1;
+
+            for(int idx = 0; idx <exp.length();idx++){
+                if(exp.charAt(idx) == '('){
+                    bracketsCount++;
+                }else if(exp.charAt(idx) == ')')
+                    bracketsCount--;
+
+
+                if(bracketsCount == 0){
+                    splitPointIndex = idx;
+                    break;
+                }
+            }
+
+            String firstExp = exp.substring(0, splitPointIndex + 1);
+            String secondExp = exp.substring(splitPointIndex+1);
+
+            return Calc.run(Calc.run(firstExp)+secondExp);
+        }
+
+
+
 
         if (needToCompund) {
             exp = exp.replaceAll("- ","+ -");
