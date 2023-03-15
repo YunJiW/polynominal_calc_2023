@@ -35,9 +35,11 @@ public class Calc {
             }
 
             String firstExp = exp.substring(0, splitPointIndex + 1);
-            String secondExp = exp.substring(splitPointIndex+1);
+            String secondExp = exp.substring(splitPointIndex+4);
 
-            return Calc.run(Calc.run(firstExp)+secondExp);
+            char oper = exp.charAt(splitPointIndex + 2);
+            exp = Calc.run(firstExp) + " " +oper + " " + Calc.run(secondExp);
+            return Calc.run(exp);
         }
 
 
